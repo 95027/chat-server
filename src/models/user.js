@@ -7,7 +7,6 @@ module.exports = (sequelize, DataTypes) => {
     email: {
       type: DataTypes.STRING,
       allowNull: false,
-      unique: true,
     },
 
     password: {
@@ -20,6 +19,15 @@ module.exports = (sequelize, DataTypes) => {
     },
   });
 
-  User.associate = () => {};
+  User.associate = (models) => {
+    User.hasMany(models.Message, { foreignKey: "senderId" });
+
+    User.belongsToMany(models.Conversation, {
+      through: "ConversationMember",
+      foreignKey: "userId",
+      as: "conversations",
+    });
+  };
+
   return User;
 };

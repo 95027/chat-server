@@ -21,7 +21,9 @@ app.use("/", (req, res, next) => {
     <h2>Socket.io Test Page</h2>
     <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
     <script>
-      const socket = io("http://localhost:3000");
+      const socket = io("http://localhost:3000", {
+      auth: {
+      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzY1MDE2MzA5LCJleHAiOjE3NjU2MjExMDl9.-OZ-XNQP_YEcTMHheQ5D1LPYxyO-tYm9D0FzAwobh3c"}});
 
       socket.on("connect", () => {
         console.log("Connected:", socket.id);
