@@ -3,6 +3,7 @@ require("dotenv").config();
 const http = require("http");
 const { Server } = require("socket.io");
 const db = require("./src/models");
+const cors = require("cors");
 const errorHandler = require("./src/middlewares/errorHandler");
 const routes = require("./src/routes");
 const logApiCalls = require("./src/helpers/logApiCalls");
@@ -11,25 +12,18 @@ const socketSetup = require("./src/sockets");
 const app = express();
 app.use(express.json());
 
+const corsOptions = {
+  origin: "*",
+};
+
+app.use(cors(corsOptions));
+
 app.use(logApiCalls);
 
 app.use("/v1", routes);
 
 app.use("/", (req, res, next) => {
-  //   res.send("Hello World");
-  res.send(`
-    <h2>Socket.io Test Page</h2>
-    <script src="https://cdn.socket.io/4.7.4/socket.io.min.js"></script>
-    <script>
-      const socket = io("http://localhost:3000", {
-      auth: {
-      token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MywiaWF0IjoxNzY1MDE2MzA5LCJleHAiOjE3NjU2MjExMDl9.-OZ-XNQP_YEcTMHheQ5D1LPYxyO-tYm9D0FzAwobh3c"}});
-
-      socket.on("connect", () => {
-        console.log("Connected:", socket.id);
-      });
-    </script>
-  `);
+  res.send("Hello World");
 });
 
 app.use(errorHandler);
