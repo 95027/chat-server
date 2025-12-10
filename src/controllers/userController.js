@@ -1,8 +1,14 @@
+const { Op } = require("sequelize");
 const { User } = require("../models");
 
 const getAllUsers = async (req, res, next) => {
   try {
     const users = await User.findAll({
+      where: {
+        id: {
+          [Op.ne]: req.user?.id,
+        },
+      },
       attributes: { exclude: ["password"] },
     });
 
